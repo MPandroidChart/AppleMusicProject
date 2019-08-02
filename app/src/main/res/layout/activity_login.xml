@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.LoginActivity">
+    <include layout="@layout/nav_bar"></include>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/logo"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <com.example.applemusicdemo.views.InputView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/input_phone"
+        android:layout_marginTop="@dimen/nav_padding"
+        app:input_icon="@mipmap/phone"
+        app:input_hint="@string/string_phone"
+        app:is_password="false"
+        ></com.example.applemusicdemo.views.InputView>
+    <View
+        style="@style/line"></View>
+    <com.example.applemusicdemo.views.InputView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/input_password"
+        android:layout_marginTop="@dimen/nav_padding"
+        app:input_icon="@mipmap/password"
+        app:input_hint="@string/string_password"
+        app:is_password="true"
+        ></com.example.applemusicdemo.views.InputView>
+    <View
+        style="@style/line"></View>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="立即注册"
+        android:textSize="15sp"
+        android:textColor="@color/mianColor"
+        android:layout_gravity="center_horizontal"
+        android:onClick="OnRegisterClick"
+        android:layout_marginTop="20dp"/>
+    <Button
+        style="@style/commitButton"
+        android:onClick="OnLoginClick"
+        android:text="登 录"/>
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.MeActivity">
+    <include layout="@layout/nav_bar"></include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="用户名:"
+        android:textStyle="bold"
+        android:textSize="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15645670987"
+            android:textStyle="bold"
+            android:id="@+id/mine_account"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="忘记密码"
+        android:onClick="OnForgetPassClick"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/bt_forgetpass_select"
+        android:textSize="18dp"/>
+    <Button
+        style="@style/commitButton"
+        android:text="退出登录"
+        android:onClick="OnExitLoginClick"
+        android:layout_marginTop="30dp"/>
+
+</LinearLayout>

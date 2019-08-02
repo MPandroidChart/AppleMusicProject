@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/bt_forgetpass_select">
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:id="@+id/rv_list_img"
+        android:src="@mipmap/img1"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="音乐名称"
+            android:id="@+id/music_name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#434343"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="作者"
+            android:id="@+id/music_author"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#434343"/>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@mipmap/play"
+        android:layout_gravity="center_vertical"/>
+
+
+</LinearLayout>
