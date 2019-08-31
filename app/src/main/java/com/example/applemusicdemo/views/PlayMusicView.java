@@ -33,7 +33,7 @@ public class PlayMusicView extends FrameLayout {
     private ImageView musicbk_icon;
     private Animation mplaydic_ainm,mplayneedle_anim,mleaveneedle_anim;
     private FrameLayout fl_play_dic;
-    private ImageView play_needle,iv_play_music;
+    private ImageView play_needle;
     private boolean isplaying,isBindService;
     private MusicService.MusicBind  bind;
     private MediaPlayHelper mMediaPlayHelper;
@@ -69,18 +69,18 @@ public class PlayMusicView extends FrameLayout {
         mView= LayoutInflater.from(mcontext).inflate(R.layout.play_music_view,this,false);
         musicbk_icon=mView.findViewById(R.id.music_bk_icon);
         fl_play_dic=mView.findViewById(R.id.play_dic);
-        fl_play_dic.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    trigger();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        fl_play_dic.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                try {
+//                    trigger();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
         play_needle=mView.findViewById(R.id.play_needle);
-        iv_play_music=mView.findViewById(R.id.iv_play_music);
+        //iv_play_music=mView.findViewById(R.id.iv_play_music);
         /**
          * 一、定义所需要实现的动画
          * 1、光盘旋转动画
@@ -124,7 +124,7 @@ public class PlayMusicView extends FrameLayout {
         isplaying=true;
         fl_play_dic.startAnimation(mplaydic_ainm);
         play_needle.startAnimation(mplayneedle_anim);
-        iv_play_music.setVisibility(View.GONE);
+        //iv_play_music.setVisibility(View.GONE);
         /**
          * 1.判断当前音乐是否是已经在播放的音乐；
          * 2、如果当前的音乐是已经在播放的音乐，直接执行start方法；
@@ -153,7 +153,7 @@ public class PlayMusicView extends FrameLayout {
         isplaying=false;
         fl_play_dic.clearAnimation();
         play_needle.startAnimation(mleaveneedle_anim);
-        iv_play_music.setVisibility(View.VISIBLE);
+        //iv_play_music.setVisibility(View.VISIBLE);
         //mMediaPlayHelper.pause();
         if(bind!=null)
         bind.stopMusic();

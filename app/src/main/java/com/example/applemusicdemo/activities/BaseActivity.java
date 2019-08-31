@@ -33,3 +33,4 @@ public class BaseActivity extends Activity {
           });
     }
 }
+///Users/civet/Downloads/quickstart-android-375c1ae5ec9000ee71b93cee409086e27d774bdb/FirebaseProjDemo/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml

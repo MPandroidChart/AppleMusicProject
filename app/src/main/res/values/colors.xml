@@ -3,8 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="mianColor">#d43433</color>
     <color name="lineColor">#c3c3c3</color>
+    <color name="mianColor">#d43433</color>
     <color name="mainColorH">#C80F1F</color>
     <color name="forgetpassH">#DEE1E6</color>
 </resources>

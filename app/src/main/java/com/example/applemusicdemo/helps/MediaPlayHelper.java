@@ -109,4 +109,7 @@ public class MediaPlayHelper {
         void onPrepared(MediaPlayer mediaPlayer);
         void onCompletion(MediaPlayer mediaPlayer);
     }
+    public void setPlayPosition(int position){
+        mMediaPlayer.seekTo(position);
+    }
 }
