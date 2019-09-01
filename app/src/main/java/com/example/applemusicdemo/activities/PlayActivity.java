@@ -20,6 +20,8 @@ import com.example.applemusicdemo.views.PlayMusicView;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -43,8 +45,11 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
     private MediaPlayHelper mediaPlayHelper;
     private boolean isSeekBarChanging;//互斥变量，防止进度条与定时器冲突。
     private int currentPosition;//当前音乐播放的进度
-    private SimpleDateFormat format;
+    private SimpleDateFormat format=new SimpleDateFormat("mm:ss");
     private boolean isplaying=false;
+    private String path;
+    private Timer timer;
+
 
 
 
@@ -70,6 +75,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         musicId=i.getStringExtra(MUSIC_ID);
         helper=new RealmHelper();
         musicModel=helper.getMusic(musicId);
+        path=musicModel.getPath();
         mediaPlayHelper=MediaPlayHelper.getInstance(this);
 
     }
@@ -88,6 +94,9 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         music_length=findViewById(R.id.music_length);
         music_sb=findViewById(R.id.seekBar);
         music_sb.setOnSeekBarChangeListener(new MySeekBar());
+        music_sb.setMax(mediaPlayHelper.getDuration());
+        music_current.setText("00:00");
+        music_length.setText(format.format(mediaPlayHelper.getDuration())+"");
         //glide_transformation
         //实现高斯模糊效果
         Glide.with(this).load(musicModel.getPoster())
@@ -96,7 +105,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         play_music_name.setText(musicModel.getName()+"-");
         play_music_author.setText(musicModel.getAuthor());
         playMusicView=findViewById(R.id.playMusicView);
-
+        playMusicView.setMusic(musicModel);
     }
 
 
@@ -106,16 +115,53 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         super.onDestroy();
         helper.closeRealm();
         playMusicView.unBindService();
+        if (timer != null){
+            timer.cancel();
+            timer = null;
+        }
+       isSeekBarChanging=true;
     }
+    /**
+     * 切换播放状态
+     */
+    private void trigger() throws IOException {
+        isplaying=playMusicView.isplay();
+        if(isplaying){
+            play_music_ib.setImageResource(R.mipmap.play);
+            playMusicView.stopMusic();
+            currentPosition=mediaPlayHelper.getCurrentPosition();
+        }else{
+            mediaPlayHelper.setPlayPosition(currentPosition);
+            play_music_ib.setImageResource(R.mipmap.stop);
+            playMusicView.playMusic();
+            //监听播放时回调函数
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
 
+                Runnable updateUI = new Runnable() {
+                    @Override
+                    public void run() {
+                        music_current.setText(format.format(mediaPlayHelper.getCurrentPosition())+"");
+                        currentPosition=mediaPlayHelper.getCurrentPosition();
+                    }
+                };
+                @Override
+                public void run() {
+                    if(!isSeekBarChanging){
+                        music_sb.setProgress(mediaPlayHelper.getCurrentPosition());
+                        currentPosition=mediaPlayHelper.getCurrentPosition();
+                        runOnUiThread(updateUI);
+                    }
+                }
+            },0,50);
+        }
+    }
     @Override
     public void onClick(View v) {
      switch(v.getId()){
-       case  R.id.play_music_ib:
-           isplaying=true;
-           playMusicView.setMusic(musicModel);
+         case  R.id.play_music_ib:
            try {
-               playMusicView.playMusic();
+               trigger();
            } catch (IOException e) {
                e.printStackTrace();
            }
@@ -141,8 +187,10 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         /*滑动结束后，重新设置值*/
         public void onStopTrackingTouch(SeekBar seekBar) {
             isSeekBarChanging = false;
+            currentPosition=seekBar.getProgress();
             mediaPlayHelper.setPlayPosition(seekBar.getProgress());
         }
     }
+
 
 }

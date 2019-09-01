@@ -34,7 +34,7 @@ public class PlayMusicView extends FrameLayout {
     private Animation mplaydic_ainm,mplayneedle_anim,mleaveneedle_anim;
     private FrameLayout fl_play_dic;
     private ImageView play_needle;
-    private boolean isplaying,isBindService;
+    public boolean isplaying,isBindService;
     private MusicService.MusicBind  bind;
     private MediaPlayHelper mMediaPlayHelper;
     private Intent serviceIntent;
@@ -93,6 +93,7 @@ public class PlayMusicView extends FrameLayout {
         mplaydic_ainm= AnimationUtils.loadAnimation(mcontext,R.anim.play_disc_anim);
         mplayneedle_anim=AnimationUtils.loadAnimation(mcontext,R.anim.play_needle_anim);
         mleaveneedle_anim=AnimationUtils.loadAnimation(mcontext,R.anim.leave_needle_anim);
+        play_needle.startAnimation(mleaveneedle_anim);
         addView(mView);
         //mMediaPlayHelper=MediaPlayHelper.getInstance(context);//获取帮助类的单例；
     }
@@ -102,16 +103,7 @@ public class PlayMusicView extends FrameLayout {
                 .into(musicbk_icon);
 
     }
-    /**
-     * 切换播放状态
-     */
-     private void trigger() throws IOException {
-         if(isplaying){
-             stopMusic();
-         }else{
-             playMusic();
-         }
-     }
+
      public void setMusic(MusicModel music){
          musicModel=music;
          setMusicBkImg();
@@ -157,6 +149,13 @@ public class PlayMusicView extends FrameLayout {
         //mMediaPlayHelper.pause();
         if(bind!=null)
         bind.stopMusic();
+    }
+    /**
+     * 判断音乐是否在播放
+     *
+     */
+    public boolean isplay(){
+        return isplaying;
     }
     /**
      * 启动服务

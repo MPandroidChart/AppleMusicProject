@@ -55,6 +55,9 @@ public class MediaPlayHelper {
         if(mMediaPlayer.isPlaying()||!path.equals(mPath)){
             //音乐正在播放或者切换了音乐，则重置音乐播放状态；
             mMediaPlayer.reset();
+        }else{
+            //没有切换音乐
+
         }
         mPath=path;
         mMediaPlayer.setDataSource(mcontext, Uri.parse(path));
@@ -82,7 +85,9 @@ public class MediaPlayHelper {
             }
         });
     }
-
+public int getDuration(){
+        return mMediaPlayer.getDuration();
+}
     /**
      * 返回正在播放的音乐的路径；
      * @return
@@ -111,5 +116,8 @@ public class MediaPlayHelper {
     }
     public void setPlayPosition(int position){
         mMediaPlayer.seekTo(position);
+    }
+    public int getCurrentPosition(){
+        return mMediaPlayer.getCurrentPosition();
     }
 }
