@@ -2,11 +2,13 @@ package com.example.applemusicdemo.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 /**
  *读取资源文件中json数据
@@ -39,4 +41,35 @@ public class DataUtils {
         }
         return sb.toString();
     }
+    /**
+     * 获取网络音乐时长；
+     * @throws
+     */
+    public static int getRingDuring(String mUri){
+        String duration=null;
+        android.media.MediaMetadataRetriever mmr = new android.media.MediaMetadataRetriever();
+
+        try {
+            if (mUri != null) {
+                HashMap<String, String> headers=null;
+                if (headers == null) {
+                    headers = new HashMap<String, String>();
+                    headers.put("User-Agent", "Mozilla/5.0 (Linux; U; Android 4.4.2; zh-CN; MW-KW-001 Build/JRO03C) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.001 U4/0.8.0 Mobile Safari/533.1");
+                }
+                mmr.setDataSource(mUri, headers);
+            }
+            duration = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);
+        } catch (Exception ex) {
+        } finally {
+            mmr.release();
+        }
+        int musc_length=0;
+        try {
+            musc_length = Integer.parseInt(duration);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return musc_length;
+    }
+
 }

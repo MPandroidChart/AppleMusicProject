@@ -1,8 +1,10 @@
 package com.example.applemusicdemo.activities;
 
 import android.content.Intent;
+import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -18,8 +20,12 @@ import com.example.applemusicdemo.helps.RealmHelper;
 import com.example.applemusicdemo.models.MusicModel;
 import com.example.applemusicdemo.views.PlayMusicView;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,10 +51,12 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
     private MediaPlayHelper mediaPlayHelper;
     private boolean isSeekBarChanging;//互斥变量，防止进度条与定时器冲突。
     private int currentPosition;//当前音乐播放的进度
-    private SimpleDateFormat format=new SimpleDateFormat("mm:ss");
+    private  SimpleDateFormat format=new SimpleDateFormat("mm:ss");
     private boolean isplaying=false;
     private String path;
     private Timer timer;
+    private static final  String TAG="PlayActivity";
+    private  int musc_length = 0;
 
 
 
@@ -94,9 +102,8 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         music_length=findViewById(R.id.music_length);
         music_sb=findViewById(R.id.seekBar);
         music_sb.setOnSeekBarChangeListener(new MySeekBar());
-        music_sb.setMax(mediaPlayHelper.getDuration());
         music_current.setText("00:00");
-        music_length.setText(format.format(mediaPlayHelper.getDuration())+"");
+
         //glide_transformation
         //实现高斯模糊效果
         Glide.with(this).load(musicModel.getPoster())
@@ -106,6 +113,10 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         play_music_author.setText(musicModel.getAuthor());
         playMusicView=findViewById(R.id.playMusicView);
         playMusicView.setMusic(musicModel);
+        musc_length=musicModel.getLength();
+        String length=format.format(musc_length);
+        music_length.setText(length);
+        music_sb.setMax(musc_length);
     }
 
 
@@ -134,6 +145,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
             mediaPlayHelper.setPlayPosition(currentPosition);
             play_music_ib.setImageResource(R.mipmap.stop);
             playMusicView.playMusic();
+            music_length.setText(format.format(mediaPlayHelper.getDuration())+"");
             //监听播放时回调函数
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -191,6 +203,37 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
             mediaPlayHelper.setPlayPosition(seekBar.getProgress());
         }
     }
+
+//    /**
+//     * 获取网络音乐时长；
+//     * @throws
+//     */
+//    public  String getRingDuring(String mUri){
+//        String duration=null;
+//        android.media.MediaMetadataRetriever mmr = new android.media.MediaMetadataRetriever();
+//
+//        try {
+//            if (mUri != null) {
+//                HashMap<String, String> headers=null;
+//                if (headers == null) {
+//                    headers = new HashMap<String, String>();
+//                    headers.put("User-Agent", "Mozilla/5.0 (Linux; U; Android 4.4.2; zh-CN; MW-KW-001 Build/JRO03C) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.001 U4/0.8.0 Mobile Safari/533.1");
+//                }
+//                mmr.setDataSource(mUri, headers);
+//            }
+//            duration = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);
+//        } catch (Exception ex) {
+//        } finally {
+//            mmr.release();
+//        }
+//        Log.e(TAG,"duration "+duration);
+//        try {
+//            musc_length = Integer.parseInt(duration);
+//        } catch (NumberFormatException e) {
+//            e.printStackTrace();
+//        }
+//        return format.format(musc_length);
+//    }
 
 
 }

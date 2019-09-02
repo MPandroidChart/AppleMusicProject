@@ -17,6 +17,7 @@ import com.example.applemusicdemo.activities.AlbumListActivity;
 import com.example.applemusicdemo.activities.PlayActivity;
 import com.example.applemusicdemo.models.AlbumModel;
 import com.example.applemusicdemo.models.MusicModel;
+import com.example.applemusicdemo.utils.DataUtils;
 import com.example.applemusicdemo.views.PlayMusicView;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         Glide.with(mContext).load(model.getPoster()).into(viewholder.rv_list_img);
         viewholder.music_name.setText(model.getName());
         viewholder.music_author.setText(model.getAuthor());
+        model.setLength(DataUtils.getRingDuring(model.getPath()));
         viewholder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

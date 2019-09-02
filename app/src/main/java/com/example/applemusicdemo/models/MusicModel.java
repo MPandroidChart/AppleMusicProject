@@ -15,6 +15,7 @@ public class MusicModel extends RealmObject {
     private String poster;
     private String path;
     private String author;
+    private int length;
 
     public String getMusicId() {
         return musicId;
@@ -54,5 +55,13 @@ public class MusicModel extends RealmObject {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }
