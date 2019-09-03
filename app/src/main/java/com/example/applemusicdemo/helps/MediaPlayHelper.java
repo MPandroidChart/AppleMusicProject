@@ -120,4 +120,5 @@ public int getDuration(){
     public int getCurrentPosition(){
         return mMediaPlayer.getCurrentPosition();
     }
+
 }

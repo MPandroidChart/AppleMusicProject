@@ -114,9 +114,10 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         playMusicView=findViewById(R.id.playMusicView);
         playMusicView.setMusic(musicModel);
         musc_length=musicModel.getLength();
+        music_sb.setMax(musc_length);
         String length=format.format(musc_length);
         music_length.setText(length);
-        music_sb.setMax(musc_length);
+
     }
 
 
@@ -145,7 +146,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
             mediaPlayHelper.setPlayPosition(currentPosition);
             play_music_ib.setImageResource(R.mipmap.stop);
             playMusicView.playMusic();
-            music_length.setText(format.format(mediaPlayHelper.getDuration())+"");
+           //music_length.setText(format.format(mediaPlayHelper.getDuration())+"");
             //监听播放时回调函数
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -163,6 +164,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
                         music_sb.setProgress(mediaPlayHelper.getCurrentPosition());
                         currentPosition=mediaPlayHelper.getCurrentPosition();
                         runOnUiThread(updateUI);
+
                     }
                 }
             },0,50);
@@ -189,6 +191,16 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
 
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
+            if(progress==musc_length){
+                playMusicView.stopMusic();
+                play_music_ib.setImageResource(R.mipmap.play);
+                if (timer != null){
+                    timer.cancel();
+                    timer = null;
+                }
+
+            }
+
         }
 
         /*滚动时,应当暂停后台定时器*/
@@ -204,36 +216,6 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-//    /**
-//     * 获取网络音乐时长；
-//     * @throws
-//     */
-//    public  String getRingDuring(String mUri){
-//        String duration=null;
-//        android.media.MediaMetadataRetriever mmr = new android.media.MediaMetadataRetriever();
-//
-//        try {
-//            if (mUri != null) {
-//                HashMap<String, String> headers=null;
-//                if (headers == null) {
-//                    headers = new HashMap<String, String>();
-//                    headers.put("User-Agent", "Mozilla/5.0 (Linux; U; Android 4.4.2; zh-CN; MW-KW-001 Build/JRO03C) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.001 U4/0.8.0 Mobile Safari/533.1");
-//                }
-//                mmr.setDataSource(mUri, headers);
-//            }
-//            duration = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);
-//        } catch (Exception ex) {
-//        } finally {
-//            mmr.release();
-//        }
-//        Log.e(TAG,"duration "+duration);
-//        try {
-//            musc_length = Integer.parseInt(duration);
-//        } catch (NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-//        return format.format(musc_length);
-//    }
 
 
 }

@@ -15,12 +15,15 @@ import com.bumptech.glide.Glide;
 import com.example.applemusicdemo.R;
 import com.example.applemusicdemo.activities.AlbumListActivity;
 import com.example.applemusicdemo.activities.PlayActivity;
+import com.example.applemusicdemo.helps.RealmHelper;
 import com.example.applemusicdemo.models.AlbumModel;
 import com.example.applemusicdemo.models.MusicModel;
 import com.example.applemusicdemo.utils.DataUtils;
 import com.example.applemusicdemo.views.PlayMusicView;
 
 import java.util.List;
+
+import io.realm.Realm;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.Viewholder> {
     private Context mContext;
@@ -49,16 +52,22 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         Glide.with(mContext).load(model.getPoster()).into(viewholder.rv_list_img);
         viewholder.music_name.setText(model.getName());
         viewholder.music_author.setText(model.getAuthor());
-        model.setLength(DataUtils.getRingDuring(model.getPath()));
+
+
         viewholder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent i=new Intent(mContext, PlayActivity.class);
                 i.putExtra(PlayActivity.MUSIC_ID,model.getMusicId());
                 mContext.startActivity(i);
             }
         });
+//        if(realm!=null||!realm.isClosed()){
+//            realm.close();
+//        }
     }
+
 
     @Override
     public int getItemCount() {

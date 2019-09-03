@@ -27,7 +27,8 @@ public class Migration implements RealmMigration {
                     .addField("name",String.class)
                     .addField("poster",String.class)
                     .addField("path",String.class)
-                    .addField("author",String.class);
+                    .addField("author",String.class)
+                    .addField("length",Integer.class);
 /**
  * private String albumId;
  *     private String name;

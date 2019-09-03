@@ -95,7 +95,7 @@ public class PlayMusicView extends FrameLayout {
         mleaveneedle_anim=AnimationUtils.loadAnimation(mcontext,R.anim.leave_needle_anim);
         play_needle.startAnimation(mleaveneedle_anim);
         addView(mView);
-        //mMediaPlayHelper=MediaPlayHelper.getInstance(context);//获取帮助类的单例；
+        mMediaPlayHelper=MediaPlayHelper.getInstance(context);//获取帮助类的单例；
     }
     public void setMusicBkImg(){
         Glide.with(mcontext)
@@ -205,5 +205,14 @@ public class PlayMusicView extends FrameLayout {
             isBindService=false;
             mcontext.unbindService(conn);
         }
+    }
+    /**
+     * 判断音乐是否播放完毕
+     */
+    public boolean isMusicFinishedPlay(){
+        if(musicModel.getLength()==mMediaPlayHelper.getCurrentPosition()){
+            return true;
+        }
+        return false;
     }
 }

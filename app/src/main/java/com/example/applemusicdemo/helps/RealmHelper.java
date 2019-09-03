@@ -147,5 +147,15 @@ public class RealmHelper {
     public MusicModel getMusic (String MusicId){
         return mRealm.where(MusicModel.class).equalTo("musicId",MusicId).findFirst();
     }
+    //
+    /**
+     *     设置音乐时长
+     */
+    public void setMusicLength(String MusicId){
+        MusicModel model=getMusic(MusicId);
+        mRealm.beginTransaction();
+        model.setLength(DataUtils.getRingDuring(model.getPath()));
+        mRealm.commitTransaction();
+    }
 
 }
